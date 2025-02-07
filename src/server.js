@@ -6,6 +6,9 @@ import authRoutes from "./api/auth.js"
 import profileRoutes from "./api/profile.js"
 import cardRoutes from "./api/cards.js"
 import itemRoutes from "./api/items.js"
+import battleLogRoutes from "./api/battleLogs.js"
+import collectionRoutes from "./api/collection.js"
+import cpuOpponentRoutes from "./api/cpuOpponents.js"
 import errorHandler from "./middleware/errors.js"
 
 dotenv.config()
@@ -35,6 +38,9 @@ app.use("/api/auth", authRoutes)
 app.use("/api/profile", profileRoutes)
 app.use("/api/cards", cardRoutes)
 app.use("/api/items", itemRoutes)
+app.use("/api/battleLogs", battleLogRoutes)
+app.use("/api/collection", collectionRoutes)
+app.use("/api/cpuOpponents", cpuOpponentRoutes)
 
 const MONGO_URI =
     process.env.MONGO_URI ||
