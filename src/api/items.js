@@ -34,13 +34,13 @@ router.post("/", requiresAuth, requiresAdmin, async (req, res, next) => {
         const { name, image, type, level, info, price, contents } = req.body
 
         const newItem = new Item({
-            name: name,
-            image: image,
-            type: type,
-            level: level,
-            info: info,
-            price: price,
-            contents: contents,
+            name,
+            image,
+            type,
+            level,
+            info,
+            price,
+            contents,
         })
 
         await newItem.save()
@@ -63,13 +63,13 @@ router.put("/:itemId", requiresAuth, requiresAdmin, async (req, res, next) => {
                 _id: req.params.itemId,
             },
             {
-                name: name,
-                image: image,
-                type: type,
-                level: level,
-                info: info,
-                price: price,
-                contents: contents,
+                name,
+                image,
+                type,
+                level,
+                info,
+                price,
+                contents,
             },
             {
                 new: true,

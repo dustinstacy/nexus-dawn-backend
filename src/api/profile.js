@@ -1,6 +1,7 @@
 import express from "express"
 import User from "../models/User.js"
 import requiresAuth from "../middleware/requiresAuth.js"
+import { hasUser } from "../utils/hasUser.js"
 import {
     validateRegisterInput,
     checkForExistingEmail,
@@ -23,26 +24,18 @@ router.put("/:action", requiresAuth, checkForExistingEmail, checkForExistingUser
     console.log("req.params", req.params)
     console.log("Action received:", req.params.action)
     try {
-        const user = await User.findOne({ _id: req.user._id })
-        console.log("req.params", req.params)
-        console.log("Action received:", req.params.action)
-
-        if (!user) {
-            res.status(404).json({ error: "User not found" })
-            return
+        if (!hasUser(req)) {
+            return res.status(400).json({ error: "No user found" })
         }
 
+        const user = await User.findOne({ _id: req.user._id })
+
         const { errors, isValid } = validateRegisterInput(req.body)
-        console.log("req.params", req.params)
-        console.log("Action received:", req.params.action)
 
         if (!isValid) {
             res.status(400).json(errors)
             return
         }
-
-        console.log("req.params", req.params)
-        console.log("Action received:", req.params.action)
 
         const {
             role,
@@ -63,8 +56,7 @@ router.put("/:action", requiresAuth, checkForExistingEmail, checkForExistingUser
         } = req.body
 
         let updatedFields = {}
-        console.log("req.params", req.params)
-        console.log("Action received:", req.params.action)
+
         switch (req.params.action) {
             case "info":
                 updatedFields = {

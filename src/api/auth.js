@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import User from "../models/User.js"
 import requiresAuth from "../middleware/requiresAuth.js"
+import { hasUser } from "../utils/hasUser.js"
 import {
     validateRegisterInput,
     checkForExistingEmail,
@@ -49,10 +50,8 @@ router.post("/register", checkForExistingEmail, checkForExistingUsername, async 
         })
 
         const savedUser = await newUser.save()
-
         const payload = { userId: savedUser._id }
         const token = jwt.sign(payload, process.env.JWT_SECRET)
-
         setAccessTokenCookie(res, token)
 
         const userToReturn = savedUser.toJSON()
@@ -105,9 +104,8 @@ router.post("/login", async (req, res, next) => {
 // @access Private
 router.get("/current", requiresAuth, (req, res, next) => {
     try {
-        console.log("/current", req.user)
-        if (!req.user) {
-            return res.status(401).json({ error: "Unauthorized" })
+        if (!hasUser(req)) {
+            return res.status(400).json({ error: "No user found" })
         }
         res.json(req.user)
     } catch (err) {
