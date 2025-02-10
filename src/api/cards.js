@@ -6,7 +6,7 @@ import requiresAdmin from "../middleware/requiresAdmin.js"
 const router = express.Router()
 
 // @route GET /api/cards/test
-// @desc Test the auth route
+// @desc Test the Cards route
 // @access Public
 router.get("/test", (req, res) => {
     res.send("Cards route working")

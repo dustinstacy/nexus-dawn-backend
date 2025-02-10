@@ -1,11 +1,11 @@
-import mongoose, { Schema, model } from 'mongoose'
+import mongoose, { Schema, model } from "mongoose"
 
-// user obtained cards with added values and favorite option
+// Full card schema
 const CollectionSchema = new Schema(
     {
         user: {
             type: Schema.Types.ObjectId,
-            ref: 'User',
+            ref: "User",
             required: true,
         },
         cards: [
@@ -72,6 +72,6 @@ const CollectionSchema = new Schema(
     }
 )
 
-const Collection = model('Collection', CollectionSchema)
+const Collection = model("Collection", CollectionSchema)
 
 export default Collection

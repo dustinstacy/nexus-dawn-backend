@@ -10,14 +10,14 @@ import {
 
 const router = express.Router()
 
-// @route GET /api/profile/test
-// @desc Test the profile route
+// @route GET /api/profiles/test
+// @desc Test the Profiles route
 // @access Public
 router.get("/test", (req, res) => {
     res.send("Profile route working")
 })
 
-// @route PUT /api/profile/:action
+// @route PUT /api/profiles/:action
 // @desc Update user's profile
 // @access Private
 router.put("/:action", requiresAuth, checkForExistingEmail, checkForExistingUsername, async (req, res, next) => {

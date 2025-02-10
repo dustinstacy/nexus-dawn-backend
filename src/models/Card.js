@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose"
 
-// base card schema for library display and pack openings
+// Base Card schema for display use
 const CardSchema = new Schema(
     {
         name: {

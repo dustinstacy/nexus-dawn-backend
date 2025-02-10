@@ -6,14 +6,14 @@ import { hasUser } from "../utils/hasUser.js"
 
 const router = express.Router()
 
-// @route GET /api/collection/test
-// @desc Test the auth route
+// @route GET /api/collections/test
+// @desc Test the Collections route
 // @access Public
 router.get("/test", (req, res) => {
     res.send("Collection route working")
 })
 
-// @route GET /api/collection
+// @route GET /api/collections
 // @desc Get user's Collection
 // @access Private
 router.get("/", requiresAuth, async (req, res, next) => {
@@ -33,7 +33,7 @@ router.get("/", requiresAuth, async (req, res, next) => {
     }
 })
 
-// @route POST /api/collection
+// @route POST /api/collections
 // @route Create new user Collection
 // @access Private
 router.post("/", requiresAuth, async (req, res, next) => {
@@ -61,7 +61,7 @@ router.post("/", requiresAuth, async (req, res, next) => {
     }
 })
 
-// @route PUT /api/collection/new
+// @route PUT /api/collections/new
 // @route Add a new card to user's Collection
 // @access Private
 router.put("/new", requiresAuth, async (req, res, next) => {
@@ -91,7 +91,7 @@ router.put("/new", requiresAuth, async (req, res, next) => {
     }
 })
 
-// @route PUT /api/collection/:cardId/:action
+// @route PUT /api/collections/:cardId/:action
 // @desc Update a card in user's Collection
 // @access Private
 router.put("/:cardId/:action", requiresAuth, async (req, res, next) => {
@@ -156,7 +156,7 @@ router.put("/:cardId/:action", requiresAuth, async (req, res, next) => {
     }
 })
 
-// @route DELETE /api/collection/:cardId/delete
+// @route DELETE /api/collections/:cardId/delete
 // @desc Remove card from user's collection
 // @access Private
 router.delete("/:cardId/delete", requiresAuth, async (req, res, next) => {

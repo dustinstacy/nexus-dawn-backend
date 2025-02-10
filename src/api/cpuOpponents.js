@@ -6,7 +6,7 @@ import requiresAdmin from "../middleware/requiresAdmin.js"
 const router = express.Router()
 
 // @route GET /api/cpuOpponents/test
-// @desc Test the CPU Opoonent route
+// @desc Test the CPU Oponnents route
 // @access Public
 router.get("/test", (req, res) => {
     res.send("CPU Opponent route working")
@@ -14,7 +14,7 @@ router.get("/test", (req, res) => {
 
 // @route GET /api/cpuOpponents
 // @desc Get CPU Opponent
-// @access Private
+// @access Public
 router.get("/", async (req, res, next) => {
     try {
         const cpuOpponents = await CPUOpponent.find()

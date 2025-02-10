@@ -1,3 +1,4 @@
+// Middleware to check if the user is an admin
 const requiresAdmin = async (req, res, next) => {
     try {
         const user = req.user
@@ -6,7 +7,7 @@ const requiresAdmin = async (req, res, next) => {
             next()
             return
         } else {
-            res.status(403).json({ error: "Forbidden" }) // User is not authorized as an admin
+            res.status(403).json({ error: "Forbidden" })
             return
         }
     } catch (error) {

@@ -6,7 +6,7 @@ import requiresAdmin from "../middleware/requiresAdmin.js"
 const router = express.Router()
 
 // @route GET /api/items/test
-// @desc Test the items route
+// @desc Test the Items route
 // @access Public
 router.get("/test", (req, res) => {
     res.send("Items route working")
@@ -14,7 +14,7 @@ router.get("/test", (req, res) => {
 
 // @route GET /api/items
 // @desc Get all items
-// @access Private
+// @access Public
 router.get("/", async (req, res, next) => {
     try {
         const items = await Item.find()
@@ -28,7 +28,7 @@ router.get("/", async (req, res, next) => {
 
 // @route POST /api/items/
 // @desc Add item to database
-// @access Private
+// @access Admin
 router.post("/", requiresAuth, requiresAdmin, async (req, res, next) => {
     try {
         const { name, image, type, level, info, price, contents } = req.body
@@ -53,7 +53,7 @@ router.post("/", requiresAuth, requiresAdmin, async (req, res, next) => {
 
 // @route PUT /api/items/:itemId
 // @desc Update item in database
-// @access Private
+// @access Admin
 router.put("/:itemId", requiresAuth, requiresAdmin, async (req, res, next) => {
     try {
         const { name, image, type, level, info, price, contents } = req.body
@@ -90,7 +90,7 @@ router.put("/:itemId", requiresAuth, requiresAdmin, async (req, res, next) => {
 
 // @route DELETE /api/items/:itemId
 // @desc Remove item from database
-// @access Private
+// @access Admin
 router.delete("/:itemId/remove", requiresAuth, requiresAdmin, async (req, res, next) => {
     try {
         const item = await Item.findOne({

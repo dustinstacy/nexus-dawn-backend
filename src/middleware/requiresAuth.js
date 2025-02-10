@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 import User from "../models/User.js"
 
+// Middleware to check if the user is authenticated
 const requiresAuth = async (req, res, next) => {
     try {
         let token

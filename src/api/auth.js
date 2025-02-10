@@ -24,7 +24,7 @@ const setAccessTokenCookie = (res, token) => {
 }
 
 // @route GET /api/auth/test
-// @desc Test the auth route
+// @desc Test the Auth route
 // @access Public
 router.get("/test", (req, res) => {
     res.send("Auth route working")

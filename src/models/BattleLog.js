@@ -1,6 +1,5 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model } from "mongoose"
 
-// base card schema for library display and pack openings
 const BattleLogSchema = new Schema(
     {
         battleNumber: {
@@ -18,6 +17,6 @@ const BattleLogSchema = new Schema(
     }
 )
 
-const BattleLog = model('BattleLog', BattleLogSchema)
+const BattleLog = model("BattleLog", BattleLogSchema)
 
 export default BattleLog

@@ -1,11 +1,11 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model } from "mongoose"
 
-// user cards selected from collection to use during a match
+// Card schema for those added to a deck (lighter weight than full card schema)
 const DeckSchema = new Schema(
     {
         user: {
             type: Schema.Types.ObjectId,
-            ref: 'User',
+            ref: "User",
             required: true,
         },
         cards: [
@@ -38,6 +38,6 @@ const DeckSchema = new Schema(
     }
 )
 
-const Deck = model('Deck', DeckSchema)
+const Deck = model("Deck", DeckSchema)
 
 export default Deck

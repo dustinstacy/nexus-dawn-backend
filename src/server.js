@@ -9,13 +9,15 @@ import itemRoutes from "./api/items.js"
 import battleLogRoutes from "./api/battleLogs.js"
 import collectionRoutes from "./api/collections.js"
 import cpuOpponentRoutes from "./api/cpuOpponents.js"
+import deckRoutes from "./api/decks.js"
 import errorHandler from "./middleware/errors.js"
+import { MONGO_DEV_URI, PORT } from "./utils/helperConfig.js"
 
 dotenv.config()
 
 const app = express()
 
-// You can specify your frontend's URL here
+// CORS allowed origins
 const allowedOrigins = ["http://localhost:5173", "https://yourfrontenddomain.com"]
 
 const corsOptions = {
@@ -35,17 +37,17 @@ app.use(errorHandler)
 
 // Routes
 app.use("/api/auth", authRoutes)
-app.use("/api/profile", profileRoutes)
+app.use("/api/profiles", profileRoutes)
 app.use("/api/cards", cardRoutes)
 app.use("/api/items", itemRoutes)
 app.use("/api/battleLogs", battleLogRoutes)
-app.use("/api/collection", collectionRoutes)
+app.use("/api/collections", collectionRoutes)
 app.use("/api/cpuOpponents", cpuOpponentRoutes)
+app.use("/api/decks", deckRoutes)
 
-const MONGO_URI =
-    process.env.MONGO_URI ||
-    "mongodb+srv://cloudwalker0013:A3GeYLhO5pOjF6nc@development-data.e0khqcy.mongodb.net/?retryWrites=true&w=majority&appName=Development-Data"
-const PORT = process.env.PORT || 5000
+const MONGO_URI = process.env.MONGO_URI || MONGO_DEV_URI
+
+const LOCAL_PORT = process.env.PORT || PORT
 
 mongoose
     .connect(MONGO_URI)
@@ -61,6 +63,6 @@ app.get("/", (req, res) => {
 })
 
 // Start the server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`)
+app.listen(LOCAL_PORT, () => {
+    console.log(`Server running on http://localhost:${LOCAL_PORT}`)
 })

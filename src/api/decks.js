@@ -5,14 +5,14 @@ import { hasUser } from "../utils/hasUser.js"
 
 const router = express.Router()
 
-// @route GET /api/deck/test
-// @desc Test the Deck route
+// @route GET /api/decks/test
+// @desc Test the Decks route
 // @access Public
 router.get("/test", (req, res) => {
     res.send("Decks route working")
 })
 
-// @route GET /api/deck
+// @route GET /api/decks
 // @desc Get user's Deck
 // @access Private
 router.get("/", requiresAuth, async (req, res, next) => {
@@ -32,7 +32,7 @@ router.get("/", requiresAuth, async (req, res, next) => {
     }
 })
 
-// @route POST /api/deck
+// @route POST /api/decks
 // @route Create a new user Deck
 // @access Private
 router.post("/", requiresAuth, async (req, res, next) => {
@@ -56,7 +56,7 @@ router.post("/", requiresAuth, async (req, res, next) => {
     }
 })
 
-// @route PUT /api/deck/add
+// @route PUT /api/decks/add
 // @desc Add a card to user's Deck
 // @access Private
 router.put("/add", requiresAuth, async (req, res, next) => {
@@ -82,7 +82,7 @@ router.put("/add", requiresAuth, async (req, res, next) => {
     }
 })
 
-// @route PUT /api/deck/:card_id/remove
+// @route PUT /api/decks/:card_id/remove
 // @desc Remove card from user's deck
 // @access Private
 router.put("/:card_id/remove", requiresAuth, async (req, res, next) => {
@@ -110,7 +110,7 @@ router.put("/:card_id/remove", requiresAuth, async (req, res, next) => {
     }
 })
 
-// @route PUT /api/deck/empty
+// @route PUT /api/decks/empty
 // @desc Empty user's deck
 // @access Private
 router.put("/empty", requiresAuth, async (req, res, next) => {
