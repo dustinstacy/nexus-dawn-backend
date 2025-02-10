@@ -17,23 +17,15 @@ dotenv.config()
 
 const app = express()
 
-// CORS allowed origins
-const allowedOrigins = ["http://localhost:5173", "https://yourfrontenddomain.com"]
-
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error("Not allowed by CORS"))
-        }
-    },
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-}
-
 app.use(express.json())
-app.use(cors(corsOptions))
 app.use(errorHandler)
+app.use(
+    cors({
+        origin: "http://127.0.0.1:5173",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+)
 
 // Routes
 app.use("/api/auth", authRoutes)
