@@ -18,7 +18,6 @@ const setAccessTokenCookie = (res, token) => {
     res.cookie("access-token", token, {
         expires: expirationTime,
         secure: true,
-        httpOnly: true,
     })
 }
 
