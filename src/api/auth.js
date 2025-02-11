@@ -17,9 +17,8 @@ const setAccessTokenCookie = (res, token) => {
     const expirationTime = new Date(Date.now() + 3600000)
     res.cookie("access-token", token, {
         expires: expirationTime,
-        secure: process.env.NODE_ENV === "production",
+        secure: true,
         httpOnly: true,
-        sameSite: "Strict",
     })
 }
 
@@ -119,7 +118,6 @@ router.get("/current", requiresAuth, (req, res, next) => {
 router.put("/logout", requiresAuth, async (req, res, next) => {
     try {
         res.clearCookie("access-token")
-        res.clearCookie("token")
         res.json({ success: true, message: "Logged out successfully" })
     } catch (err) {
         next(err)
