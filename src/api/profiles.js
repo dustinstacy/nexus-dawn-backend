@@ -21,8 +21,6 @@ router.get("/test", (req, res) => {
 // @desc Update user's profile
 // @access Private
 router.put("/:action", requiresAuth, checkForExistingEmail, checkForExistingUsername, async (req, res, next) => {
-    console.log("req.params", req.params)
-    console.log("Action received:", req.params.action)
     try {
         if (!hasUser(req)) {
             return res.status(400).json({ error: "No user found" })

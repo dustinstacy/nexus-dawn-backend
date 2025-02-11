@@ -22,7 +22,8 @@ const UserSchema = new Schema(
         },
         image: {
             type: String,
-            default: "",
+            default:
+                "https://res.cloudinary.com/dsv7k92lb/image/upload/v1687989560/Nexus%20Dawn/avatars/magus2_vizmyl.jpg",
         },
         color: {
             type: String,
