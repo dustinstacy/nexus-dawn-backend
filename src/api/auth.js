@@ -12,15 +12,6 @@ import {
 
 const router = express.Router()
 
-// Generate and set the access token cookie
-const setAccessTokenCookie = (res, token) => {
-    const expirationTime = new Date(Date.now() + 3600000)
-    res.cookie("access-token", token, {
-        expires: expirationTime,
-        secure: true,
-    })
-}
-
 // @route GET /api/auth/test
 // @desc Test the Auth route
 // @access Public
@@ -49,13 +40,17 @@ router.post("/register", checkForExistingEmail, checkForExistingUsername, async 
 
         const savedUser = await newUser.save()
         const payload = { userId: savedUser._id }
-        const token = jwt.sign(payload, process.env.JWT_SECRET)
-        setAccessTokenCookie(res, token)
+        const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "1h",
+        })
+        const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+        })
 
         const userToReturn = savedUser.toJSON()
         delete userToReturn.password
         res.json({
-            token: token,
+            accessToken: accessToken,
             user: userToReturn,
         })
     } catch (error) {
@@ -82,14 +77,17 @@ router.post("/login", async (req, res, next) => {
         }
 
         const payload = { userId: user._id }
-        const token = jwt.sign(payload, process.env.JWT_SECRET)
-
-        setAccessTokenCookie(res, token)
+        const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "1h",
+        })
+        const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+        })
 
         const userToReturn = user.toJSON()
         delete userToReturn.password
         res.json({
-            token: token,
+            accessToken: accessToken,
             user: userToReturn,
         })
     } catch (error) {
@@ -116,7 +114,7 @@ router.get("/current", requiresAuth, (req, res, next) => {
 // @access Private
 router.put("/logout", requiresAuth, async (req, res, next) => {
     try {
-        res.clearCookie("access-token")
+        res.cookie("access-token", "", { expires: new Date(0) })
         res.json({ success: true, message: "Logged out successfully" })
     } catch (err) {
         next(err)

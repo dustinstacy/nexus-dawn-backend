@@ -23,8 +23,10 @@ app.use(express.json())
 app.use(errorHandler)
 app.use(
     cors({
-        origin: "http://127.0.0.1:5173",
+        origin: "http://localhost:3000",
         credentials: true,
+        exposedHeaders: ["Set-Cookie"],
+        allowedHeaders: ["Content-Type", "Authorization", "credentials"],
     })
 )
 
