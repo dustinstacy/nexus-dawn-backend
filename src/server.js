@@ -12,20 +12,24 @@ import collectionRoutes from "./api/collections.js"
 import cpuOpponentRoutes from "./api/cpuOpponents.js"
 import deckRoutes from "./api/decks.js"
 import errorHandler from "./middleware/errors.js"
-import { MONGO_DEV_URI, PORT } from "./utils/helperConfig.js"
+import { CLIENT_PORT, MONGO_DEV_URI, PORT } from "./utils/helperConfig.js"
 
 dotenv.config()
 
 const app = express()
 
-const localClientPort = `http://localhost:${process.env.CLIENT_PORT}` || "http://localhost:3000"
+const localClientPort = process.env.CLIENT_PORT || CLIENT_PORT
 
 app.use(cookieParser())
 app.use(express.json())
 app.use(errorHandler)
 app.use(
     cors({
-        origin: [localClientPort, process.env.CLIENT_DEPLOYMENT],
+        origin: [
+            `http://localhost:${localClientPort}`,
+            "https://nexus-dawn-itu5d3b9e-dustinstacys-projects.vercel.app/",
+            "https://nexus-dawn.vercel.app/",
+        ],
         credentials: true,
         exposedHeaders: ["Set-Cookie"],
         allowedHeaders: ["Content-Type", "Authorization", "credentials"],
