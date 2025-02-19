@@ -29,6 +29,11 @@ router.get("/:action", requiresAuth, async (req, res, next) => {
         const user = await User.findOne({ _id: req.user._id })
 
         switch (req.params.action) {
+            case "image":
+                res.json({
+                    image: user.image,
+                })
+                break
             case "coin":
                 res.json({
                     coin: user.coin,
@@ -49,7 +54,7 @@ router.get("/:action", requiresAuth, async (req, res, next) => {
                     inventory: user.inventory,
                 })
                 break
-            case "onboarding":
+            case "onboardingStage":
                 res.json({
                     onboardingStage: user.onboardingStage,
                 })
