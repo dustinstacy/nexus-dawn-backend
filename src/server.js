@@ -25,11 +25,7 @@ app.use(express.json())
 app.use(errorHandler)
 app.use(
     cors({
-        origin: [
-            `http://localhost:${localClientPort}`,
-            "https://nexus-dawn-itu5d3b9e-dustinstacys-projects.vercel.app/",
-            "https://nexus-dawn.vercel.app/",
-        ],
+        origin: [`http://localhost:${localClientPort}`, "https://nexus-dawn.vercel.app"],
         credentials: true,
         exposedHeaders: ["Set-Cookie"],
         allowedHeaders: ["Content-Type", "Authorization", "credentials"],
