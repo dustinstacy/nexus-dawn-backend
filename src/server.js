@@ -18,12 +18,14 @@ dotenv.config()
 
 const app = express()
 
+const localClientPort = `http://localhost:${process.env.CLIENT_PORT}` || "http://localhost:3000"
+
 app.use(cookieParser())
 app.use(express.json())
 app.use(errorHandler)
 app.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: [localClientPort, process.env.CLIENT_DEPLOYMENT],
         credentials: true,
         exposedHeaders: ["Set-Cookie"],
         allowedHeaders: ["Content-Type", "Authorization", "credentials"],
@@ -42,8 +44,6 @@ app.use("/api/decks", deckRoutes)
 
 const MONGO_URI = process.env.MONGO_URI || MONGO_DEV_URI
 
-const LOCAL_PORT = process.env.PORT || PORT
-
 mongoose
     .connect(MONGO_URI)
     .then(() => {
@@ -57,7 +57,9 @@ app.get("/", (req, res) => {
     res.send("Server Running")
 })
 
+const localServerPort = process.env.PORT || PORT
+
 // Start the server
-app.listen(LOCAL_PORT, () => {
-    console.log(`Server running on http://localhost:${LOCAL_PORT}`)
+app.listen(localServerPort, () => {
+    console.log(`Server running on http://localhost:${localServerPort}`)
 })
