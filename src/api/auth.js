@@ -43,9 +43,6 @@ router.post("/register", checkForExistingEmail, checkForExistingUsername, async 
         const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "1h",
         })
-        const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "7d",
-        })
 
         const userToReturn = savedUser.toJSON()
         delete userToReturn.password
@@ -79,9 +76,6 @@ router.post("/login", async (req, res, next) => {
         const payload = { userId: user._id }
         const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "1h",
-        })
-        const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "7d",
         })
 
         const userToReturn = user.toJSON()
