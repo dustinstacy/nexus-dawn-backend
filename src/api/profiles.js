@@ -17,6 +17,52 @@ router.get("/test", (req, res) => {
     res.send("Profile route working")
 })
 
+// @route GET /api/profiles/:action
+// @desc Get user's profile data
+// @access Private
+router.get("/:action", requiresAuth, async (req, res, next) => {
+    try {
+        if (!hasUser(req)) {
+            return res.status(400).json({ error: "No user found" })
+        }
+
+        const user = await User.findOne({ _id: req.user._id })
+
+        switch (req.params.action) {
+            case "coin":
+                res.json({
+                    coin: user.coin,
+                })
+                break
+            case "xp":
+                res.json({
+                    xp: user.xp,
+                })
+                break
+            case "level":
+                res.json({
+                    level: user.level,
+                })
+                break
+            case "inventory":
+                res.json({
+                    inventory: user.inventory,
+                })
+                break
+            case "onboarding":
+                res.json({
+                    onboardingStage: user.onboardingStage,
+                })
+                break
+            default:
+                res.status(400).json({ error: "Invalid action" })
+                return
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
 // @route PUT /api/profiles/:action
 // @desc Update user's profile
 // @access Private
