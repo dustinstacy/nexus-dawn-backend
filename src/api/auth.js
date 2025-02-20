@@ -8,7 +8,7 @@ import {
     validateRegisterInput,
     checkForExistingEmail,
     checkForExistingUsername,
-} from "../middleware/reigsterValidation.js"
+} from "../middleware/registerValidation.js"
 
 const router = express.Router()
 
