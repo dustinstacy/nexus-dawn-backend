@@ -49,6 +49,11 @@ router.get("/:action", requiresAuth, async (req, res, next) => {
                     level: user.level,
                 })
                 break
+            case "stats":
+                res.json({
+                    stats: user.stats,
+                })
+                break
             case "inventory":
                 res.json({
                     inventory: user.inventory,
