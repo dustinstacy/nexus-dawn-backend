@@ -42,20 +42,15 @@ router.get("/battleNumber", async (req, res, next) => {
 // @route Add Battle Log
 // @access Public
 router.post("/", async (req, res, next) => {
+    console.log(req.body)
     try {
         const { battleLog } = req.body
 
+        // Stringify the battle log
+        const stringifiedBattleLog = JSON.stringify(battleLog)
+
         // Get current battle number by querying the database
         const battleNumber = await getCurrentBattleNumber()
-
-        // Parse battleLog into an object
-        const parsedBattleLog = JSON.parse(battleLog)
-
-        // Remove 'image' properties
-        removeImageProperties(parsedBattleLog)
-
-        // Stringify the modified battleLog
-        const stringifiedBattleLog = JSON.stringify(parsedBattleLog)
 
         const newBattleLog = new BattleLog({
             battleNumber: battleNumber,
@@ -76,17 +71,6 @@ const getCurrentBattleNumber = async () => {
     const logCount = await logCountQuery.exec()
     const battleNumber = Number(logCount) + 1
     return battleNumber
-}
-
-// Helper function to remove 'image' properties recursively
-const removeImageProperties = (obj) => {
-    for (let key in obj) {
-        if (key === "image") {
-            delete obj[key]
-        } else if (typeof obj[key] === "object") {
-            removeImageProperties(obj[key])
-        }
-    }
 }
 
 export default router
