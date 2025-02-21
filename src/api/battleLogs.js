@@ -42,7 +42,6 @@ router.get("/battleNumber", async (req, res, next) => {
 // @route Add Battle Log
 // @access Public
 router.post("/", async (req, res, next) => {
-    console.log(req.body)
     try {
         const { battleLog } = req.body
 
