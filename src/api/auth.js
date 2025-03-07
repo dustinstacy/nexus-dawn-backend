@@ -9,6 +9,8 @@ import {
     checkForExistingEmail,
     checkForExistingUsername,
 } from "../middleware/registerValidation.js"
+import { generateResetToken } from "../utils/generateResetToken.js"
+import { sendResetEmail } from "../utils/emailService.js"
 
 const router = express.Router()
 
@@ -115,4 +117,25 @@ router.put("/logout", requiresAuth, async (req, res, next) => {
     }
 })
 
+router.post("/reset-password", async (req, res) => {
+    try {
+        const { email } = req.body;
+        console.log("from reset password controller", email);
+        
+        if (!email) return res.status(400).json({ email: "Email is required" });
+
+        // Check if user exists in database
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ email: "No account with this email" });
+
+        // Generate reset token (store in DB or send directly)
+        const resetToken = generateResetToken(); // Implement this function
+        await sendResetEmail(email, resetToken); // Call email service
+
+        res.json({ message: "Reset link sent if email is registered." });
+    } catch (error) {
+        console.error("Error in reset-password route:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 export default router
