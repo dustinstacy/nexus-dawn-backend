@@ -120,8 +120,7 @@ router.put("/logout", requiresAuth, async (req, res, next) => {
 router.post("/reset-password", async (req, res) => {
     try {
         const { email } = req.body;
-        console.log("from reset password controller", email);
-        
+
         if (!email) return res.status(400).json({ email: "Email is required" });
 
         // Check if user exists in database
@@ -129,10 +128,10 @@ router.post("/reset-password", async (req, res) => {
         if (!user) return res.status(400).json({ email: "No account with this email" });
 
         // Generate reset token (store in DB or send directly)
-        const resetToken = generateResetToken(); // Implement this function
-        await sendResetEmail(email, resetToken); // Call email service
+        const resetToken = generateResetToken();
+        await sendResetEmail(email, resetToken);
 
-        res.json({ message: "Reset link sent if email is registered." });
+        res.json({ message: "Password Reset link sent to the registered email." });
     } catch (error) {
         console.error("Error in reset-password route:", error);
         res.status(500).json({ error: "Internal server error" });
