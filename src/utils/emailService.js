@@ -1,18 +1,23 @@
 import nodemailer from "nodemailer";
+import { mailConfig } from './helperConfig.js';
 import dotenv from "dotenv";
 
 dotenv.config(); // Load environment variables
+
+
+const { mailService, auth, resetLink, from } = mailConfig;
+
 const transporter = nodemailer.createTransport({
-    service: "Gmail", // Use "SendGrid" or other if preferred
+    service: mailService,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+      user: auth.user,
+      pass: auth.pass,
     },
-});
+  });
 
 export const sendResetEmail = async (email, token) => {
     const resetLink = `http://localhost:3000/password-reset?token=${token}`;
-    
+
     const mailOptions = {
         from: "kotesharya1@gmail.com",
         to: email,
