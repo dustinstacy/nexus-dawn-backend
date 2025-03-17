@@ -117,6 +117,9 @@ router.put("/logout", requiresAuth, async (req, res, next) => {
     }
 })
 
+// @route Post /api/auth/reset-password
+// @desc sends a link to user email for updating their password
+// @access Private
 router.post("/reset-password", async (req, res) => {
     try {
         const { email } = req.body;
@@ -127,8 +130,11 @@ router.post("/reset-password", async (req, res) => {
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ email: "No account with this email" });
 
-        // Generate reset token (store in DB or send directly)
-        const resetToken = generateResetToken();
+        // Generate reset token (send directly)
+        const resetToken = generateResetToken(user._id);
+       
+
+        // Send this link via email
         await sendResetEmail(email, resetToken);
 
         res.json({ message: "Password Reset link sent to the registered email." });
@@ -137,4 +143,49 @@ router.post("/reset-password", async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+// @route POST /api/auth/update-password
+// @desc Update user password 
+// @access Public
+router.post("/update-password/:token", async (req, res, next) => {
+    try {
+        const { token } = req.params;
+        const { newPassword } = req.body;
+
+        if (!token) {
+            return res.status(400).json({ error: "Invalid or missing token." });
+        }
+
+        if (!newPassword) {
+            return res.status(400).json({ error: "New password is required." });
+        }
+
+        // Verify token and get userId
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (error) {
+            return res.status(400).json({ error: "Invalid or expired token." });
+        }
+
+        // Find the user
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            return res.status(400).json({ error: "User not found." });
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+
+        // Save the new password
+        await user.save();
+
+        res.json({ message: "Password reset successfully. Please log in." });
+    } catch (error) {
+        console.error("Error resetting password:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+});
+
 export default router
