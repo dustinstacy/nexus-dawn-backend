@@ -23,8 +23,6 @@ Nexus Dawn Backend
 </a>
 </div>
 
-
-
 ## Description
 
 The backend of the [Nexus Dawn](https://nexus-dawn.vercel.app) web app runs on this Express.js RESTful API server, handling everything you need, like user profiles, card collections, deck creation, game progress, and more.
@@ -62,7 +60,18 @@ CLIENT_PORT=<number>
 # The stronger the better for security purposes
 JWT_SECRET=<string>
 
+# NECESSARY: Cloudinary
+# Go to https://console.cloudinary.com/settings/<cloudinary user id>/api-keys and copy values. Cloud name can be found next to the page heading "API Keys"
+CLOUDINARY_CLOUD_NAME=<string>
+CLOUDINARY_API_KEY=<number>
+CLOUDINARY_API_SECRET=<string>
+
+# NECESSARY
+# Path where avatars should be stored in the form /path/to/avatars
+CLOUDINARY_AVATARS_FOLDER=<string>
+
 ```
+
 To utilize the frontend alongside this server, head over to the [frontend](https://github.com/dustinstacy/nexus-dawn) repo and follow
 the Local Setup steps minus the server setup you've already done here.
 
@@ -79,4 +88,3 @@ Interested in contirbuting? Check out the current [issues](https://github.com/du
 ## License
 
 The MIT License (MIT)
-
