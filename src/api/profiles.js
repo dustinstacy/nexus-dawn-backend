@@ -185,4 +185,48 @@ router.put("/upload/avatar", requiresAuth, upload.single("file"), async (req, re
   }
 });
 
+// @route GET /api/profiles/listPlayers
+// @desc get all players data fro leader board ranking with accordances to rank_by filter
+// @access Private
+router.get("/leaderboardPlayers/by/:rank_by", requiresAuth, async (req, res, next) => {
+  const {rank_by} = req.params;
+  let query = '';
+
+  if(!rank_by) res.status(400).json({ error: "Missing: rank_by Attribute" });
+  //to sort documents by a field's nested object, we use a `.` operator
+  //to sort by a level-1 field of a document we just pass that as an option to $sort derictive 
+  if(rank_by === 'battles' ||  rank_by === 'wins' || rank_by === 'losses' || rank_by === 'draws'){
+      query  =  `stats.${rank_by}`
+  }else{
+      query = rank_by;
+  }
+  try {
+      const players = await User.aggregate([
+          {
+              $sort: { [query]: -1}
+          },
+          {
+              $limit: 10
+            }, 
+          { 
+            
+            $project:{
+              _id:1,
+              username:1,
+              email:1,
+              color:1,
+              coin:1,
+              stats:1,
+              xp:1,
+              level:1,
+              
+            }
+          },
+        ]);
+        res.json(players)
+  } catch (error) {
+      next(error)
+  }
+})
+
 export default router;
